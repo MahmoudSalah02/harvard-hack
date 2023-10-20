@@ -1,6 +1,24 @@
 branch-defaults:
+  main:
+    environment: flask-env
   master:
     environment: null
     group_suffix: null
+environment-defaults:
+  flask-env:
+    branch: main
+    repository: origin
 global:
+  application_name: albumy
+  branch: main
+  default_ec2_keyname: aws-eb
+  default_platform: Python 3.11 running on 64bit Amazon Linux 2023
+  default_region: us-east-2
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
   profile: null
+  repository: origin
+  sc: git
+  workspace_type: Application
