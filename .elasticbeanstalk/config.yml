@@ -1,11 +1,15 @@
 branch-defaults:
   main:
-    environment: flask-env
+    environment: production
+    group_suffix: null
   master:
     environment: null
     group_suffix: null
 environment-defaults:
   flask-env:
+    branch: main
+    repository: origin
+  production:
     branch: main
     repository: origin
 global:
