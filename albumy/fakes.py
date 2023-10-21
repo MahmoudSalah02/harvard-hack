@@ -63,7 +63,7 @@ def fake_tag(count=20):
             db.session.rollback()
 
 
-def fake_photo(count=30):
+def fake_photo(count=5):
     # photos
     upload_path = current_app.config['ALBUMY_UPLOAD_PATH']
     for i in range(count):
