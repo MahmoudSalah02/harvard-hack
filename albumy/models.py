@@ -230,6 +230,12 @@ class Photo(db.Model):
     flag = db.Column(db.Integer, default=0)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+    #add field for location, quantity in lbs, description, name of the produce, and price
+    location = db.Column(db.String(50))
+    quantity = db.Column(db.Float)
+    produce_name = db.Column(db.String(50))
+    price = db.Column(db.Integer)
+
     author = db.relationship('User', back_populates='photos')
     comments = db.relationship('Comment', back_populates='photo', cascade='all')
     collectors = db.relationship('Collect', back_populates='collected', cascade='all')
