@@ -20,7 +20,7 @@ def fake_admin():
                  email='admin@helloflask.com',
                  bio=fake.sentence(),
                  website='http://greyli.com',
-                 confirmed=True)
+                 is_farmer = True)
     admin.set_password('helloflask')
     notification = Notification(message='Hello, welcome to Albumy.', receiver=admin)
     db.session.add(notification)
@@ -31,13 +31,13 @@ def fake_admin():
 def fake_user(count=10):
     for i in range(count):
         user = User(name=fake.name(),
-                    confirmed=True,
                     username=fake.user_name(),
                     bio=fake.sentence(),
                     location=fake.city(),
                     website=fake.url(),
                     member_since=fake.date_this_decade(),
-                    email=fake.email())
+                    email=fake.email(),
+                    is_farmer=False)
         user.set_password('123456')
         db.session.add(user)
         try:

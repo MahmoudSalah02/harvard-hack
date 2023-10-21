@@ -113,3 +113,8 @@ uploads/avatars/*
 !uploads/avatars/.gitkeep
 
 whooshee
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
