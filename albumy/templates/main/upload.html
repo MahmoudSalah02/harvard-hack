@@ -1,3 +1,6 @@
+
+
+
 {% extends 'base.html' %}
 
 {% block title %}Upload{% endblock %}
@@ -12,18 +15,49 @@
     <div class="page-header">
         <h1>Upload</h1>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            {{ dropzone.create(action='main.upload') }}
-            <a class="btn btn-light float-right" href="{{ url_for('user.index', username=current_user.username) }}">
-                Done
-            </a>
+    <form action="{{ url_for('main.upload') }}" method="post" enctype="multipart/form-data" class="dropzone" id="myDropzone">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="fallback">
+            <input name="file" type="file" multiple />
         </div>
-    </div>
+        <div class="form-group">
+            <label for="location">Location:</label>
+            <input type="text" class="form-control" id="location" name="location" required>
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity (lbs):</label>
+            <input type="number" class="form-control" id="quantity" name="quantity" step="0.1" required>
+        </div>
+        <div class="form-group">
+            <label for="produce_name">Produce Name:</label>
+            <input type="text" class="form-control" id="produce_name" name="produce_name" required>
+        </div>
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" class="form-control" id="price" name="price" step="0.01" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <a class="btn btn-light float-right" href="{{ url_for('user.index', username=current_user.username) }}">
+        Done
+    </a>
 {% endblock %}
 
 {% block scripts %}
     {{ super() }}
     <script src="{{ url_for('static', filename='js/dropzone.min.js') }}"></script>
-    {{ dropzone.config() }}
+    <script>
+        Dropzone.options.myDropzone = {
+            init: function() {
+                this.on("sending", function(file, xhr, formData) {
+                    // Append the form fields to the Dropzone AJAX request
+                    formData.append("location", document.getElementById("location").value);
+                    formData.append("quantity", document.getElementById("quantity").value);
+                    formData.append("produce_name", document.getElementById("produce_name").value);
+                    formData.append("price", document.getElementById("price").value);
+                });
+            }
+        };
+    </script>
 {% endblock %}
+
