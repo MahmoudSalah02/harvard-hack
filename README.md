@@ -14,11 +14,11 @@ $ source env/bin/activate  # use `env\Scripts\activate` on Windows
 $ pip install -r requirements.txt
 ```
 
-```
 generate fake data then run:
 ```
 $ flask forge
 $ flask run
+
 * Running on http://127.0.0.1:5000/
 ```
 Test account:

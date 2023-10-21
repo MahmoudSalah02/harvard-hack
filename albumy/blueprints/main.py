@@ -205,11 +205,22 @@ def upload():
         f.save(os.path.join(current_app.config['ALBUMY_UPLOAD_PATH'], filename))
         filename_s = resize_image(f, filename, current_app.config['ALBUMY_PHOTO_SIZE']['small'])
         filename_m = resize_image(f, filename, current_app.config['ALBUMY_PHOTO_SIZE']['medium'])
+        
+        # Get additional form data
+        location = request.form.get('location')
+        quantity = request.form.get('quantity')
+        produce_name = request.form.get('produce_name')
+        price = request.form.get('price')
+        
         photo = Photo(
             filename=filename,
             filename_s=filename_s,
             filename_m=filename_m,
-            author=current_user._get_current_object()
+            author=current_user._get_current_object(),
+            location=location,  # Save location
+            quantity=quantity,  # Save quantity
+            produce_name=produce_name,  # Save produce_name
+            price=price  # Save price
         )
         db.session.add(photo)
         db.session.commit()

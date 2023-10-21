@@ -12,6 +12,14 @@
                     <img class="img-fluid" src="{{ url_for('.get_image', filename=photo.filename_m) }}">
                 </a>
             </div>
+
+            <div class="photo-details">
+                <p><strong>Location:</strong> {{ photo.location }}</p>
+                <p><strong>Quantity (lbs):</strong> {{ photo.quantity }}</p>
+                <p><strong>Produce Name:</strong> {{ photo.produce_name }}</p>
+                <p><strong>Price:</strong> ${{ photo.price }}</p>
+            </div>
+
             <a class="btn btn-primary btn-sm text-white" data-toggle="modal" data-target="#share-modal">Share</a>
             {% if current_user == photo.author or current_user.can('MODERATE') %}
                 <a class="btn btn-danger btn-sm text-white" data-toggle="modal" data-target="#confirm-delete"
