@@ -2,6 +2,8 @@
 
 import os
 import random
+import openai
+import re
 import requests
 
 from flask import render_template, flash, redirect, url_for, current_app, \
@@ -72,6 +74,58 @@ def explore():
     photos = Photo.query.order_by(func.random()).limit(12)
     return render_template('main/explore.html', photos=photos)
 
+
+# Initialize the OpenAI API with your key
+openai.api_key = "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"
+
+import re
+
+@main_bp.route('/make_meal', methods=['GET', 'POST'])
+@login_required
+def make_meal():
+    recipe_details = None
+
+    if request.method == 'POST':
+        ingredients = ['eggs', 'tomatoes', 'spinach', 'milk']
+        description = request.form.get('description')
+
+        initial_message = {
+            "role": "user",
+            "content": f"I have these in my fridge: {', '.join(ingredients)}. I want to make a {description}. Format: 'Ingredients:' followed by ingredients separated by '$', then 'Steps:' followed by the numbered steps separated by '$'."
+        }
+
+        gpt_response = run_conversation_with_gpt([initial_message])
+        response_text = gpt_response.get('choices', [{}])[0].get('message', {}).get('content', '').strip()
+
+        # Default empty lists
+        ingredients_list = []
+        instructions_list = []
+
+        # Parsing
+        if "Ingredients:" in response_text and "Steps:" in response_text:
+            ingredients_text = response_text.split("Ingredients:")[1].split("Steps:")[0].strip()
+            instructions_text = response_text.split("Steps:")[1].strip()
+
+            # Split ingredients based on '$' symbol
+            ingredients_list = [item.strip() for item in ingredients_text.split('$') if item.strip()]
+            
+            # Split steps and remove any leading numbers followed by a dollar sign
+            instructions_list = [re.sub(r"^\d+\.\s?", "", step).strip() for step in instructions_text.split('\n') if step.strip()]
+
+        recipe_details = {
+            'ingredients': ingredients_list,
+            'instructions': instructions_list
+        }
+        print(recipe_details)
+    return render_template('main/make_meal.html', recipe=recipe_details)
+
+def run_conversation_with_gpt(messages):
+    # Set up the call to GPT-3.5-turbo-0613
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo-0613",
+        messages=messages,
+    )
+    return response
 
 @main_bp.route('/search')
 def search():

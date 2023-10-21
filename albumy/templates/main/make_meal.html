@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Make a Meal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Make a Meal</h2>
+    <div style="background-color: #f4f4f4; padding: 15px; border-radius: 5px;">
+        <form action="{{ url_for('main.make_meal') }}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="form-group">
+                <label for="file">Upload an image of your fridge:</label>
+                <input type="file" class="form-control-file" name="file" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description of what you want to eat:</label>
+                <textarea class="form-control" name="description" rows="3" placeholder="E.g. I'd like a chicken sub." required></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <div class="mt-4" style="background-color: #e9e9e9; padding: 15px; border-radius: 5px;">
+      {% if recipe %}
+          <h3>Recipe Suggestion:</h3>
+          <h4>Ingredients:</h4>
+          <ul>
+              {% for ingredient in recipe.ingredients %}
+                  <li>{{ ingredient }}</li>
+              {% endfor %}
+          </ul>
+          <h4>Steps:</h4>
+          <ol>
+              {% for step in recipe.instructions %}
+                  <li>{{ step }}</li>
+              {% endfor %}
+          </ol>
+      {% endif %}
+  </div>
+</div>
+{% endblock %}
