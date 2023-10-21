@@ -44,7 +44,6 @@ def edit_profile_admin(user_id):
         user.role = role
         user.bio = form.bio.data
         user.website = form.website.data
-        user.confirmed = form.confirmed.data
         user.active = form.active.data
         user.location = form.location.data
         user.username = form.username.data
@@ -59,7 +58,6 @@ def edit_profile_admin(user_id):
     form.location.data = user.location
     form.username.data = user.username
     form.email.data = user.email
-    form.confirmed.data = user.confirmed
     form.active.data = user.active
     return render_template('admin/edit_profile.html', form=form, user=user)
 

@@ -36,7 +36,6 @@ class AdminTestCase(BaseTestCase):
         response = self.client.post(url_for('admin.edit_profile_admin', user_id=2), data=dict(
             username='newname',
             role=role_id,
-            confirmed=True,
             active=True,
             name='New Name',
             email='new@helloflask.com'

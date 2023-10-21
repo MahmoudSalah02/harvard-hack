@@ -9,7 +9,7 @@ from flask import render_template, flash, redirect, url_for, current_app, \
 from flask_login import login_required, current_user
 from sqlalchemy.sql.expression import func
 
-from albumy.decorators import confirm_required, permission_required
+from albumy.decorators import permission_required
 from albumy.extensions import db
 from albumy.forms.main import DescriptionForm, TagForm, CommentForm
 from albumy.models import User, Photo, Tag, Follow, Collect, Comment, Notification
@@ -35,8 +35,6 @@ def index():
         photos = None
     tags = Tag.query.join(Tag.photos).group_by(Tag.id).order_by(func.count(Photo.id).desc()).limit(10)
     return render_template('main/index.html', pagination=pagination, photos=photos, tags=tags, Collect=Collect)
-
-# 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
 
 
 @main_bp.route('/ask', methods=['GET', 'POST'])
@@ -145,7 +143,6 @@ def get_avatar(filename):
 
 @main_bp.route('/upload', methods=['GET', 'POST'])
 @login_required
-@confirm_required
 @permission_required('UPLOAD')
 def upload():
     if request.method == 'POST' and 'file' in request.files:
@@ -207,7 +204,6 @@ def photo_previous(photo_id):
 
 @main_bp.route('/collect/<int:photo_id>', methods=['POST'])
 @login_required
-@confirm_required
 @permission_required('COLLECT')
 def collect(photo_id):
     photo = Photo.query.get_or_404(photo_id)
@@ -237,7 +233,6 @@ def uncollect(photo_id):
 
 @main_bp.route('/report/comment/<int:comment_id>', methods=['POST'])
 @login_required
-@confirm_required
 def report_comment(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     comment.flag += 1
@@ -248,7 +243,6 @@ def report_comment(comment_id):
 
 @main_bp.route('/report/photo/<int:photo_id>', methods=['POST'])
 @login_required
-@confirm_required
 def report_photo(photo_id):
     photo = Photo.query.get_or_404(photo_id)
     photo.flag += 1
