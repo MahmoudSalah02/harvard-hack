@@ -3,7 +3,7 @@
 from flask import render_template, flash, redirect, url_for, current_app, request, Blueprint
 from flask_login import login_required, current_user, fresh_login_required, logout_user
 
-from albumy.decorators import confirm_required, permission_required
+from albumy.decorators import permission_required
 from albumy.emails import send_change_email_email
 from albumy.extensions import db, avatars
 from albumy.forms.user import EditProfileForm, UploadAvatarForm, CropAvatarForm, ChangeEmailForm, \
@@ -44,7 +44,6 @@ def show_collections(username):
 
 @user_bp.route('/follow/<username>', methods=['POST'])
 @login_required
-@confirm_required
 @permission_required('FOLLOW')
 def follow(username):
     user = User.query.filter_by(username=username).first_or_404()
@@ -115,7 +114,6 @@ def edit_profile():
 
 @user_bp.route('/settings/avatar')
 @login_required
-@confirm_required
 def change_avatar():
     upload_form = UploadAvatarForm()
     crop_form = CropAvatarForm()
@@ -124,7 +122,6 @@ def change_avatar():
 
 @user_bp.route('/settings/avatar/upload', methods=['POST'])
 @login_required
-@confirm_required
 def upload_avatar():
     form = UploadAvatarForm()
     if form.validate_on_submit():
@@ -139,7 +136,6 @@ def upload_avatar():
 
 @user_bp.route('/settings/avatar/crop', methods=['POST'])
 @login_required
-@confirm_required
 def crop_avatar():
     form = CropAvatarForm()
     if form.validate_on_submit():
@@ -179,7 +175,6 @@ def change_email_request():
     if form.validate_on_submit():
         token = generate_token(user=current_user, operation=Operations.CHANGE_EMAIL, new_email=form.email.data.lower())
         send_change_email_email(to=form.email.data, user=current_user, token=token)
-        flash('Confirm email sent, check your inbox.', 'info')
         return redirect(url_for('.index', username=current_user.username))
     return render_template('user/settings/change_email.html', form=form)
 

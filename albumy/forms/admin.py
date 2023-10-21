@@ -12,7 +12,6 @@ class EditProfileAdminForm(EditProfileForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 254), Email()])
     role = SelectField('Role', coerce=int)
     active = BooleanField('Active')
-    confirmed = BooleanField('Confirmed')
     submit = SubmitField()
 
     def __init__(self, user, *args, **kwargs):

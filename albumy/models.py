@@ -35,7 +35,8 @@ class Role(db.Model):
             'Locked': ['FOLLOW', 'COLLECT'],
             'User': ['FOLLOW', 'COLLECT', 'COMMENT', 'UPLOAD'],
             'Moderator': ['FOLLOW', 'COLLECT', 'COMMENT', 'UPLOAD', 'MODERATE'],
-            'Administrator': ['FOLLOW', 'COLLECT', 'COMMENT', 'UPLOAD', 'MODERATE', 'ADMINISTER']
+            'Administrator': ['FOLLOW', 'COLLECT', 'COMMENT', 'UPLOAD', 'MODERATE', 'ADMINISTER'],
+            'Farmers': ['UPLOAD', 'EDIT', 'DELETE']
         }
 
         for role_name in roles_permissions_map:
@@ -92,8 +93,8 @@ class User(db.Model, UserMixin):
     avatar_m = db.Column(db.String(64))
     avatar_l = db.Column(db.String(64))
     avatar_raw = db.Column(db.String(64))
+    is_farmer = db.Column(db.Boolean, default=False)
 
-    confirmed = db.Column(db.Boolean, default=False)
     locked = db.Column(db.Boolean, default=False)
     active = db.Column(db.Boolean, default=True)
 
