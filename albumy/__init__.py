@@ -130,7 +130,7 @@ def register_commands(app):
     def forge(user, follow, photo, tag, collect, comment):
         """Generate fake data."""
 
-        from albumy.fakes import fake_admin, fake_comment, fake_follow, fake_photo, fake_tag, fake_user, fake_collect
+        from albumy.fakes import fake_admin, fake_follow, fake_photo, fake_user
 
         db.drop_all()
         db.create_all()
@@ -143,12 +143,12 @@ def register_commands(app):
         fake_user(user)
         click.echo('Generating %d follows...' % follow)
         fake_follow(follow)
-        click.echo('Generating %d tags...' % tag)
-        fake_tag(tag)
+        # click.echo('Generating %d tags...' % tag)
+        # fake_tag(tag)
         click.echo('Generating %d photos...' % photo)
         fake_photo(photo)
-        click.echo('Generating %d collects...' % photo)
-        fake_collect(collect)
-        click.echo('Generating %d comments...' % comment)
-        fake_comment(comment)
+        # click.echo('Generating %d collects...' % photo)
+        # fake_collect(collect)
+        # click.echo('Generating %d comments...' % comment)
+        # fake_comment(comment)
         click.echo('Done.')
