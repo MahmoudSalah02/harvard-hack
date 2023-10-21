@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import os
+import random
+import requests
 
 from flask import render_template, flash, redirect, url_for, current_app, \
     send_from_directory, request, abort, Blueprint
@@ -34,6 +36,38 @@ def index():
     tags = Tag.query.join(Tag.photos).group_by(Tag.id).order_by(func.count(Photo.id).desc()).limit(10)
     return render_template('main/index.html', pagination=pagination, photos=photos, tags=tags, Collect=Collect)
 
+# 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
+
+
+@main_bp.route('/ask', methods=['GET', 'POST'])
+def ask():
+    if request.method == 'POST':
+        user_query = request.form['user_query']
+
+        # Make a request to the OpenAI API
+        openai_api_url = 'https://api.openai.com/v1/engines/davinci-codex/completions'
+        headers = {
+            'Authorization': f'Bearer '
+        }
+        payload = {
+            'prompt': user_query,
+            'max_tokens': 150,  # Adjust the maximum number of tokens in the response
+            'temperature': 0.7  # Adjust the creativity of the response (0.2 for focused, 1.0 for random)
+        }
+
+        response = requests.post(openai_api_url, headers=headers, json=payload)
+        
+        print(f"Request made with prompt: {user_query}")
+        print(f"Response status code: {response}")
+        
+        if response.status_code == 200:
+            chatgpt_response = response.json()['choices'][0]['text'].strip()
+        else:
+            chatgpt_response = 'Failed to get a response from ChatGPT.'
+
+        return render_template('main/ask.html', user_query=user_query, response=chatgpt_response)
+
+    return render_template('main/ask.html', response=None)
 
 @main_bp.route('/explore')
 def explore():

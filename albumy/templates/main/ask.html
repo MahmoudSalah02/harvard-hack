@@ -1,0 +1,27 @@
+<!-- ask.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Ask Something</h1>
+    <form method="POST" action="{{ url_for('main.ask') }}">
+        <!-- Include CSRF Token -->
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="form-group">
+            <label for="user_query">Your Question:</label>
+            <input type="text" class="form-control" id="user_query" name="user_query" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Ask</button>
+    </form>
+
+    {% if response %}
+    <div class="mt-4">
+        <h2>ChatGPT Response:</h2>
+        <p><strong>Your Question:</strong> {{ user_query }}</p>
+        <p><strong>Response:</strong> {{ response }}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
