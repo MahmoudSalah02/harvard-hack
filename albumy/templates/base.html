@@ -6,8 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {% block head %}
-        <title>{% block title %}{% endblock %} - Albumy</title>
-        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+        <title>{% block title %}{% endblock %} - Misfit</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='icon.ico') }}">
         {% block styles %}
             <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
             <link rel="stylesheet" href="{{ url_for('static', filename='open-iconic/font/css/open-iconic-bootstrap.css') }}">
@@ -21,7 +21,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('main.index') }}">
-                <img src="{{ url_for('static', filename='favicon.ico') }}" alt="Albumy">
+                <img src="{{ url_for('static', filename='icon.ico') }}" alt="Misfit">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
                     aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,9 +78,8 @@
                         </div>
                     </div>
                 {% else %}
-                    <a class="btn btn-outline-primary" href="{{ url_for('auth.login') }}">Login</a>&nbsp;&nbsp;
-                    <a class="btn btn-primary" href="{{ url_for('auth.register') }}">Join Albumy</a>
-                {% endif %}
+                <a class="btn btn-outline-primary" href="{{ url_for('auth.login') }}" style="background-color: #FFFFFF; color: #8c9474; border-color: #8c9474;">Login</a>&nbsp;&nbsp;
+<a class="btn btn-primary" href="{{ url_for('auth.register') }}" style="background-color: #8c9474; color: #FFFFFF; border-color: #8c9474; transition: background-color 0.3s, border-color 0.3s;">Join Misfit</a></a>{% endif %}
                 </div>
             </div>
         </div>
@@ -100,11 +99,11 @@
             <footer>
                 <p class="float-left">
                     <small>&copy; 2023
-                        <a href="" title="Written by HackHarvard Team X">HackHarvard Team X</a> -
+                        <a href="" title="Written by Munchers @ HackHarvard">HackHarvard Team X</a> -
                     </small>
                 </p>
                 <p class="float-right">
-                    <small>Capture and share every wonderful moment.</small>
+                    <small>A new era for food sustainability.</small>
                 </p>
             </footer>
         {% endblock %}
