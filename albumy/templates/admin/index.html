@@ -6,7 +6,7 @@
 {% block navbar %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('admin.index') }}">
+            <a class="navbar-brand" href="{{ url_for('admin.explore') }}">
                 <img src="{{ url_for('static', filename='favicon.ico') }}" alt="Albumy"> Albumy Dashboard
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
@@ -16,7 +16,7 @@
 
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <div class="navbar-nav ml-auto">
-                    {{ render_nav_item('main.index', 'Return Albumy') }}
+                    {{ render_nav_item('main.explore', 'Return Albumy') }}
                     <div class="dropdown nav-item">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                            aria-expanded="false">Manage<span class="caret"></span>
@@ -37,7 +37,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" role="menu">
                             <h6 class="dropdown-header">Logged in as {{ current_user.username }}</h6>
-                            <a class="dropdown-item" href="{{ url_for('user.index', username=current_user.username) }}">
+                            <a class="dropdown-item" href="{{ url_for('main.explore', username=current_user.username) }}">
                                 <span class="oi oi-person"></span> My Home
                             </a>
                             <div class="dropdown-divider"></div>
@@ -58,7 +58,7 @@
 {% block content %}
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            {{ render_breadcrumb_item('admin.index', 'Dashboard Home') }}
+            {{ render_breadcrumb_item('admin.explore', 'Dashboard Home') }}
         </ol>
     </nav>
     <div class="row">

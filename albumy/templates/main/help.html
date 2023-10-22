@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}Produce Storage Guidelines{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produce Storage Guidelines</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f9f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #008080;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        section {
+            background-color: white;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #008080;
+        }
+
+        .faq-item .question {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .faq-item .question:after {
+            content: "▼"; /* Down arrow when collapsed */
+        }
+
+        .faq-item.open .question:after {
+            content: "▲"; /* Up arrow when expanded */
+        }
+
+        .faq-item .answer {
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .faq-item.open .answer {
+            display: block;
+        }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Frequently Asked Questions</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Storage Produce Guidelines</h2>
+            <p>Here are some frequently asked questions about storing produce:</p>
+            <ul class="faq-list">
+                <li class="faq-item">
+                    <div class="question" role="button" tabindex="0">Q: How should I store leafy greens?</div>
+                    <span class="answer">Leafy greens like lettuce and spinach should be stored in a plastic bag in the crisper drawer of your refrigerator.</span>
+                </li>
+                <li class="faq-item">
+                    <div class="question" role="button" tabindex="0">Q: What's the best way to store root vegetables?</div>
+                    <span class="answer">Root vegetables like potatoes and carrots should be stored in a cool, dark place, away from onions and garlic.</span>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Refrigerator Produce Guidelines</h2>
+            <p>Here are some frequently asked questions about refrigerator produce:</p>
+            <ul class="faq-list">
+                <li class="faq-item">
+                    <div class="question" role="button" tabindex="0">Q: Can I refrigerate tomatoes?</div>
+                    <span class="answer">Tomatoes are best stored at room temperature to maintain their flavor and texture.</span>
+                </li>
+                <li class="faq-item">
+                    <div class="question" role="button" tabindex="0">Q: How long can I keep fruits like strawberries in the fridge?</div>
+                    <span class="answer">Fresh berries usually last 3-5 days in the refrigerator. Make sure to remove any spoiled ones to prevent others from going bad.</span>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const questions = document.querySelectorAll('.question');
+
+            questions.forEach(function(question) {
+                question.addEventListener('click', function() {
+                    const faqItem = question.parentElement;
+                    faqItem.classList.toggle('open');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
+{% endblock %}

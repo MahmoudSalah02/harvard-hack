@@ -16,8 +16,8 @@ class LoginForm(FlaskForm):
 
 
 class RegisterForm(FlaskForm):
-    is_farmer = BooleanField('I want to be a farmer')
     name = StringField('Name', validators=[DataRequired(), Length(1, 30)])
+    is_farmer = BooleanField('Are you a Farmer?')
     email = StringField('Email', validators=[DataRequired(), Length(1, 254), Email()])
     username = StringField('Username', validators=[DataRequired(), Length(1, 20),
                                                    Regexp('^[a-zA-Z0-9]*$',

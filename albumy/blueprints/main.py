@@ -2,6 +2,7 @@
 
 import os
 import random
+from dotenv import load_dotenv
 from urllib.parse import urlencode
 import openai
 import re
@@ -23,8 +24,7 @@ from albumy.utils import rename_image, resize_image, redirect_back, flash_errors
 
 main_bp = Blueprint('main', __name__)
 
-
-@main_bp.route('/')
+@main_bp.route('/index')
 def index():
     if current_user.is_authenticated:
         page = request.args.get('page', 1, type=int)
@@ -41,21 +41,69 @@ def index():
     tags = Tag.query.join(Tag.photos).group_by(Tag.id).order_by(func.count(Photo.id).desc()).limit(10)
     return render_template('main/index.html', pagination=pagination, photos=photos, tags=tags, Collect=Collect)
 
+@main_bp.route('/')
 @main_bp.route('/explore')
 def explore():
     photos = Photo.query.order_by(func.random()).limit(12)
     return render_template('main/explore.html', photos=photos)
 
 
+from google.cloud import vision_v1
+from google.cloud.vision_v1 import types
+from werkzeug.utils import secure_filename
+import os
+
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def get_ingredients_from_image(image_path, confidence_threshold=0.7):
+    try:
+        client = vision_v1.ImageAnnotatorClient()
+        with open(image_path, 'rb') as image_file:
+            content = image_file.read()
+        image = types.Image(content=content)
+        response = client.label_detection(image=image)
+        
+        common_fridge_items = set([
+            "egg", "milk", "cheese", "yogurt", "butter", "bread", "chicken", "beef", 
+            "pork", "fish", "tomato", "onion", "garlic", "lettuce", "spinach", "carrot", 
+            "broccoli", "apple", "orange", "banana", "grape", "berry", "chocolate", "juice", 
+            "water",
+            # ... (expand this list as needed)
+        ])
+
+        detected_items = [
+            label.description.lower() for label in response.label_annotations 
+            if label.score >= confidence_threshold and label.description.lower() in common_fridge_items
+        ]
+        
+        return detected_items
+    
+    except Exception as e:
+        print(f"Error processing image: {e}")
+        return ['eggs', 'tomatoes', 'spinach', 'milk']
+
+load_dotenv()
+
 # Initialize the OpenAI API with your key
-openai.api_key = "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"
+openai.api_key = os.getenv("OPENAPI_KEY")
 
 @main_bp.route('/make_meal', methods=['GET', 'POST'])
 @login_required
 def make_meal():
     recipe_details = None
     if request.method == 'POST':
-        ingredients = ['eggs', 'tomatoes', 'spinach', 'milk']
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(UPLOAD_FOLDER, filename)
+            file.save(filepath)
+            ingredients = get_ingredients_from_image(filepath)
+        else:
+            ingredients = ['eggs', 'tomatoes', 'spinach', 'milk']
         description = request.form.get('description')
 
         initial_message = {
@@ -87,6 +135,11 @@ def make_meal():
         }
                 
     return render_template('main/make_meal.html', recipe=recipe_details)
+
+@main_bp.route('/help', methods=['GET'])
+@login_required  # If you want to require the user to be logged in to access this route, otherwise, remove this line.
+def help():
+    return render_template('main/help.html')
 
 def run_conversation_with_gpt(messages):
     # Set up the call to GPT-3.5-turbo-0613

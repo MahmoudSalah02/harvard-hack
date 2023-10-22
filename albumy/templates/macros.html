@@ -4,13 +4,20 @@
             <img class="card-img-top portrait" src="{{ url_for('main.get_image', filename=photo.filename_s) }}">
         </a>
         <div class="card-body">
-            <!-- <span class="oi oi-star"></span> {{ photo.collectors|length }}
-            <span class="oi oi-comment-square"></span> {{ photo.comments|length }} -->
-            <!-- put the quantity and name of the photo -->
-            <p><strong>Location:</strong> {{ photo.location }}</p>
-            <p><strong>Quantity (lbs):</strong> {{ photo.quantity }}</p>
-            <p><strong>Produce Name:</strong> {{ photo.produce_name }}</p>
-            <p><strong>Price:</strong> ${{ photo.price }}</p>
+            <!-- Display Produce Name -->
+            <h3 class="d-inline-block"><strong>{{ photo.produce_name }}</strong></h3>
+            
+            <!-- Display Location with map marker icon -->
+            <p><span class="oi oi-map-marker"></span> {{ photo.location }}</p>
+            
+            <!-- Clear float for following content -->
+            <div style="clear: both;"></div>
+            
+            <!-- Display Price -->
+            <p>(${{ photo.price }} / Lb)</p>
+            
+            <!-- Display Quantity -->
+            <p style="color: red;">{{ photo.quantity }} pounds left</p>
         </div>
     </div>
 {% endmacro %}

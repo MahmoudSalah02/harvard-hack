@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Make a Meal{% endblock %}
+{% block title %}🍽️ Plan Your Dish{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h2>Make a Meal</h2>
+    <h2>🍽️ Plan Your Dish</h2>
     <div style="background-color: #f4f4f4; padding: 15px; border-radius: 5px;">
         <form action="{{ url_for('main.make_meal') }}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
