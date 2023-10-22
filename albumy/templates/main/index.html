@@ -86,17 +86,14 @@
         {{ render_pagination(pagination, align='center') }}
     {% endif %}
 {% else %}
-    <div class="jumbotron">
-        <div class="row">
-            <div class="col-md-8">
-                <img src="{{ url_for('static', filename='images/index.jpg') }}" class="rounded img-fluid">
-            </div>
-            <div class="col-md-4 align-self-center">
-                <h1>HackHarvard</h1>
-                <p>Capture and remember every wonderful moment.</p>
-                <p><a class="btn btn-primary btn-lg" href="{{ url_for('auth.register') }}">Join Now</a></p>
-            </div>
-        </div>
+<div class="jumbotron" style="position: relative; background: url('{{ url_for('static', filename='images/top.GIF') }}') center center; background-size: contain; background-repeat: no-repeat; min-height: 100vh;">
+    <div class="col-md-4 align-self-center" style="position: absolute; bottom: 20%; left: 50%; transform: translateX(-50%); text-align: center; background: rgba(255, 255, 255, 0.7); padding: 20px; border-radius: 10px;">
+        <p><a class="btn btn-secondary btn-lg" href="{{ url_for('auth.register') }}">Join Now</a></p>
     </div>
+</div>
+
+
+
 {% endif %}
 {% endblock %}
+
