@@ -19,7 +19,7 @@
 <img width="891" alt="image" src="https://github.com/MahmoudSalah02/harvard-hack/assets/87628210/a672a12f-b95a-4e8d-90b6-27bbdbc53622">
 
 ### AI Layer Explained
-<img width="1076" alt="image" src="https://github.com/MahmoudSalah02/harvard-hack/assets/87628210/f0729ec1-714d-47cf-bf18-20deddb1e644">
+<img width="891" alt="image" src="https://github.com/MahmoudSalah02/harvard-hack/assets/87628210/16ff047a-0a3e-4781-a0fc-75a646454afa">
 
 
 ## Technology Stack
