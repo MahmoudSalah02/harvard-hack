@@ -5,6 +5,8 @@ import click
 from flask import Flask, render_template
 from flask_login import current_user
 from flask_wtf.csrf import CSRFError
+from urllib.parse import urlencode
+
 
 from albumy.blueprints.admin import admin_bp
 from albumy.blueprints.ajax import ajax_bp
@@ -22,7 +24,7 @@ def create_app(config_name=None):
     app = Flask('albumy')
     
     app.config.from_object(config[config_name])
-
+    app.config['SECRET_KEY'] = 'your_secret_key_here'
     register_extensions(app)
     register_blueprints(app)
     register_commands(app)

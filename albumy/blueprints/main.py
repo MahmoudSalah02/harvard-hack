@@ -2,9 +2,12 @@
 
 import os
 import random
+from urllib.parse import urlencode
 import openai
 import re
 import requests
+from flask import session
+import re
 
 from flask import render_template, flash, redirect, url_for, current_app, \
     send_from_directory, request, abort, Blueprint
@@ -38,37 +41,6 @@ def index():
     tags = Tag.query.join(Tag.photos).group_by(Tag.id).order_by(func.count(Photo.id).desc()).limit(10)
     return render_template('main/index.html', pagination=pagination, photos=photos, tags=tags, Collect=Collect)
 
-
-@main_bp.route('/ask', methods=['GET', 'POST'])
-def ask():
-    if request.method == 'POST':
-        user_query = request.form['user_query']
-
-        # Make a request to the OpenAI API
-        openai_api_url = 'https://api.openai.com/v1/engines/davinci-codex/completions'
-        headers = {
-            'Authorization': f'Bearer '
-        }
-        payload = {
-            'prompt': user_query,
-            'max_tokens': 150,  # Adjust the maximum number of tokens in the response
-            'temperature': 0.7  # Adjust the creativity of the response (0.2 for focused, 1.0 for random)
-        }
-
-        response = requests.post(openai_api_url, headers=headers, json=payload)
-        
-        print(f"Request made with prompt: {user_query}")
-        print(f"Response status code: {response}")
-        
-        if response.status_code == 200:
-            chatgpt_response = response.json()['choices'][0]['text'].strip()
-        else:
-            chatgpt_response = 'Failed to get a response from ChatGPT.'
-
-        return render_template('main/ask.html', user_query=user_query, response=chatgpt_response)
-
-    return render_template('main/ask.html', response=None)
-
 @main_bp.route('/explore')
 def explore():
     photos = Photo.query.order_by(func.random()).limit(12)
@@ -78,13 +50,10 @@ def explore():
 # Initialize the OpenAI API with your key
 openai.api_key = "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"
 
-import re
-
 @main_bp.route('/make_meal', methods=['GET', 'POST'])
 @login_required
 def make_meal():
     recipe_details = None
-
     if request.method == 'POST':
         ingredients = ['eggs', 'tomatoes', 'spinach', 'milk']
         description = request.form.get('description')
@@ -108,15 +77,15 @@ def make_meal():
 
             # Split ingredients based on '$' symbol
             ingredients_list = [item.strip() for item in ingredients_text.split('$') if item.strip()]
+            ingredients_list = [(i + " ✓") if i in ingredients else i for i in ingredients_list]
             
             # Split steps and remove any leading numbers followed by a dollar sign
             instructions_list = [re.sub(r"^\d+\.\s?", "", step).strip() for step in instructions_text.split('\n') if step.strip()]
-
         recipe_details = {
             'ingredients': ingredients_list,
             'instructions': instructions_list
         }
-        print(recipe_details)
+                
     return render_template('main/make_meal.html', recipe=recipe_details)
 
 def run_conversation_with_gpt(messages):
