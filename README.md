@@ -1,6 +1,7 @@
 # Misfit Munch
 
 **Misfit Munch** is a transformative platform designed to tackle the global challenge of food wastage, particularly targeting "ugly" or "wonky" produce. By bridging farmers and consumers, we ensure that produce otherwise dismissed due to its appearance finds its rightful place in our kitchens and plates, rather than being wasted.
+<img src="https://github.com/MahmoudSalah02/harvard-hack/assets/thumbnails">
 
 ## Features
 
@@ -9,6 +10,13 @@
     - **Fridge Scan**: Snap a photo of your fridge, and let our algorithm label the contents using the Google Cloud Vision API.
     - **Recipe Crafting**: Based on your fridge's content and our farmer partnerships, OpenAI ChatGPT API serves up tailored recipes.
     - **One-Click Purchase**: Fancy a recipe? Get all the ingredients with a single click, bypassing piecemeal shopping.
+
+## Demo
+
+<img width="738" alt="image" src="https://github.com/MahmoudSalah02/harvard-hack/assets/87628210/9109c646-65f3-4f0f-b35b-234c43b44e30">
+
+## AI Layer Explained
+<img width="1076" alt="image" src="https://github.com/MahmoudSalah02/harvard-hack/assets/87628210/f0729ec1-714d-47cf-bf18-20deddb1e644">
 
 
 ## Technology Stack
@@ -48,6 +56,9 @@ http://127.0.0.1:5000/
 - **Marco Qin**: Backend + AI
 - **Mahmoud Salah**: Frontend + Backend + AI
 - **Omari Emmanuel**: Content Creation + Frontend
+
+<img width="748" alt="image" src="https://github.com/MahmoudSalah02/harvard-hack/assets/87628210/6e58dbff-e06f-48f6-ab90-62e9f38e5479">
+
 
 ## Future Direction
 
