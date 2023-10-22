@@ -15,9 +15,10 @@
 
 ## Demo
 
+### App Layout
 <img width="738" alt="image" src="https://github.com/MahmoudSalah02/harvard-hack/assets/87628210/9109c646-65f3-4f0f-b35b-234c43b44e30">
 
-## AI Layer Explained
+### AI Layer Explained
 <img width="1076" alt="image" src="https://github.com/MahmoudSalah02/harvard-hack/assets/87628210/f0729ec1-714d-47cf-bf18-20deddb1e644">
 
 
