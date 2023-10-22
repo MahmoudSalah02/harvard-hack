@@ -76,4 +76,8 @@ http://127.0.0.1:5000/
 
 ## Future Direction
 
+1. We want to continue working by trying to validate the market and see if there is a strong demand.
+2. Understand the local laws of drones and the viability of transporting goods and services using drones, figuring out how to engage with regulatory bodies.
+3. Secure funding by applying to grants, which also validates our ideas as well as giving us a head start in purchasing delivery drones 
+
 Misfit Munch is not merely a solution; it's a revolution. We aim to continue refining our platform, actively contributing to the nexus between reducing food wastage and promoting healthier eating.
