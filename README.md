@@ -25,7 +25,7 @@
 ## Technology Stack
 
 - Backend: Flask, SQLite
-- Image Recognition: Google Cloud Vision API
+- Image Recognition: Google Cloud Vision API, DeepLabV3
 - Recipe Crafting: OpenAI ChatGPT API
 - Frontend: HTML, CSS, Javascript
 
