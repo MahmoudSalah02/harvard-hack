@@ -13,12 +13,55 @@
                 </a>
             </div>
 
-            <div class="photo-details">
-                <p><strong>Location:</strong> {{ photo.location }}</p>
-                <p><strong>Quantity (lbs):</strong> {{ photo.quantity }}</p>
-                <p><strong>Produce Name:</strong> {{ photo.produce_name }}</p>
-                <p><strong>Price:</strong> ${{ photo.price }}</p>
+            <div class="card bg-light mb-3" style="margin: 15px;">
+                <div class="card-body">
+                    <div class="photo-details mb-4" style="line-height: 1.2;">
+                        <h3 class="d-inline-block"><strong>{{ photo.produce_name }}</strong></h3>
+                        <p class="float-right"><span class="oi oi-map-marker"></span> {{ photo.location }}</p>
+                        <div style="clear: both;"></div>
+                        <p>(${{ photo.price }} / Lb)</p>
+                        <p style="color: red;">{{ photo.quantity }} pounds left</p>
+                    </div>
+            
+                    <!-- Collect (Buy) Form -->
+                    {% if not photo.sold_out %}
+                    <form action="{{ url_for('.collect', photo_id=photo.id) }}" method="post">
+                        <div class="form-group">
+                            <label for="quantity">Quantity (lbs):</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="decrementValue()">-</button>
+                                </div>
+                                <input type="number" class="form-control" id="quantity" name="quantity" min="0.1" step="0.1" required value="0.1">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="incrementValue()">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-success btn-sm">Purchase Now</button>
+                    </form>
+                    {% else %}
+                    <p class="text-danger">This item is sold out.</p>
+                    {% endif %}
+                </div>
             </div>
+
+            <script>
+                function decrementValue() {
+                    var quantityInput = document.getElementById('quantity');
+                    var currentValue = parseFloat(quantityInput.value);
+                    if (currentValue > 0.1) {
+                        quantityInput.value = (currentValue - 0.1).toFixed(1);
+                    }
+                }
+            
+                function incrementValue() {
+                    var quantityInput = document.getElementById('quantity');
+                    var currentValue = parseFloat(quantityInput.value);
+                    quantityInput.value = (currentValue + 0.1).toFixed(1);
+                }
+            </script>
 
             <a class="btn btn-primary btn-sm text-white" data-toggle="modal" data-target="#share-modal">Share</a>
             {% if current_user == photo.author or current_user.can('MODERATE') %}

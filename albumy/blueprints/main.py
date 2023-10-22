@@ -267,20 +267,51 @@ def photo_previous(photo_id):
     return redirect(url_for('.show_photo', photo_id=photo_p.id))
 
 
+# @main_bp.route('/collect/<int:photo_id>', methods=['POST'])
+# @login_required
+# @permission_required('COLLECT')
+# def collect(photo_id):
+#     photo = Photo.query.get_or_404(photo_id)
+#     if current_user.is_collecting(photo):
+#         flash('Already collected.', 'info')
+#         return redirect(url_for('.show_photo', photo_id=photo_id))
+
+#     current_user.collect(photo)
+#     flash('Photo collected.', 'success')
+#     if current_user != photo.author and photo.author.receive_collect_notification:
+#         push_collect_notification(collector=current_user, photo_id=photo_id, receiver=photo.author)
+#     return redirect(url_for('.show_photo', photo_id=photo_id))
+
 @main_bp.route('/collect/<int:photo_id>', methods=['POST'])
 @login_required
 @permission_required('COLLECT')
 def collect(photo_id):
     photo = Photo.query.get_or_404(photo_id)
-    if current_user.is_collecting(photo):
-        flash('Already collected.', 'info')
+
+    if photo.sold_out:
+        flash('This item is sold out.', 'danger')
         return redirect(url_for('.show_photo', photo_id=photo_id))
 
+    desired_quantity = float(request.form.get('quantity')) # Fetch the quantity user wants to buy from form
+
+    if desired_quantity > photo.quantity:
+        flash('Not enough stock available.', 'danger')
+        return redirect(url_for('.show_photo', photo_id=photo_id))
+
+    # Reduce the stock
+    photo.quantity -= desired_quantity
+    if photo.quantity <= 0:
+        photo.sold_out = True
+
     current_user.collect(photo)
-    flash('Photo collected.', 'success')
+    db.session.commit()
+
+    flash('Item collected!', 'success')
     if current_user != photo.author and photo.author.receive_collect_notification:
         push_collect_notification(collector=current_user, photo_id=photo_id, receiver=photo.author)
+
     return redirect(url_for('.show_photo', photo_id=photo_id))
+
 
 
 @main_bp.route('/uncollect/<int:photo_id>', methods=['POST'])

@@ -230,6 +230,7 @@ class Photo(db.Model):
     can_comment = db.Column(db.Boolean, default=True)
     flag = db.Column(db.Integer, default=0)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    sold_out = db.Column(db.Boolean, default=False)
 
     #add field for location, quantity in lbs, description, name of the produce, and price
     location = db.Column(db.String(50))
